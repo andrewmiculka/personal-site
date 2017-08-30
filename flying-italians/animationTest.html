@@ -1,0 +1,76 @@
+<head>
+    <title>Pizza Pie Flyboys</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script>
+          $(document).ready(function() {
+   
+                var lastIdOne, lastIdTwo, spanIdIncrement = 0;
+                var audio = new Audio('./audio/rainforest.mp3');
+                audio.volume = 0.3;
+                audio.play();
+              
+
+                $('body').on('click','.italian',function(){
+                   jQuery.get('thirtyMinutesOrLess.txt', function(data) {   window.location.href = data.split('\n')[Math.floor(Math.random()*data.split('\n').length)]   });
+                });
+              
+
+                class Italian {
+                    
+                    constructor(){
+                        let id = 0;
+                        do {
+                            id = Math.floor(Math.random()*9 + 1);
+                        }
+                        while(id == lastIdOne || id == lastIdTwo)
+                        lastIdTwo = lastIdOne;
+                        lastIdOne = id;
+                        let spanId = spanIdIncrement++;
+                        $("<span class='italian'id='"+spanId+"'style='position:absolute;background-image:url(./italians/finished/"+id+".png);background-repeat:no-repeat;display:block;height:400px;width:600px;margin:0;display:inline-block;'></span>").appendTo($('body'));
+                        $('#'+spanId).css('left', $(document).width() + 'px');
+                        $('#'+spanId).css('top', (Math.floor(Math.random() * ($(document).height() - 400)) + 200) + 'px');
+                        Italian.runAnimation(spanId);
+                    }
+                    
+                    static runAnimation(spanId){
+                        let timeIncrement = 0;
+                        let intervalId = setInterval(function(){
+                                                if(parseInt($('#'+spanId).css('left'), 10) > -600){
+                                                    $('#'+spanId).css('left',(parseInt($('#'+spanId).css('left')) - Math.abs(Math.cos(timeIncrement)*5) + 'px'));
+                                                    $('#'+spanId).css('top',(parseInt($('#'+spanId).css('top')) + Math.sin(timeIncrement)*2 + 'px'));
+                                                    timeIncrement += .05;
+                                                }
+                                                else{
+                                                    clearInterval(intervalId);
+                                                    $('#'+spanId).remove(); 
+                                                }
+                                              }, 1000/30);
+                    }
+            
+                }
+              
+              new Italian();
+              setInterval(function(){new Italian();}, 9500);
+
+          });
+    </script>
+    <style>
+        body {
+            background-color: whitesmoke; 
+            font-family: Andale Mono, monospace;
+            font-weight: bold;
+            background-image: url(./italians/sky.jpg);
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</body>
